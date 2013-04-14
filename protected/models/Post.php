@@ -55,6 +55,22 @@ class Post extends EMongoDocument
 	{
 		return $this->location[1];
 	}
+	
+	protected function beforeSave()
+	{
+		if (parent::beforeSave())
+		{
+			if ($this->isNewRecord)
+			{
+				$this->createTime = time();
+				$this->authorId = Yii::app()->user->id;
+			}
+			
+			return true;
+		}
+		else
+			return false;
+	}
 }
 
 ?>
