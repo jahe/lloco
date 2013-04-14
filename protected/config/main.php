@@ -16,6 +16,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'ext.YiiMongoDbSuite.*',
+		//'ext.directmongosuite.components.*',
 	),
 
 	'modules'=>array(
@@ -30,6 +32,19 @@ return array(
 		*/
 	),
 
+	/*
+	'behaviors' => array(
+		'edms' => array(
+			'class'=>'EDMSBehavior',
+
+			'connectionId' => 'mongodb' //if you work with yiimongodbsuite
+
+			//see the application component 'EDMSConnection' below
+			// 'connectionId' = 'edms' //default;
+			//'debug'=>true //for extended logging
+		)
+	),
+	*/
 	// application components
 	'components'=>array(
 		'user'=>array(
@@ -45,9 +60,57 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
+		'mongodb' => array(
+			'class'            => 'EMongoDB',
+			'connectionString' => 'mongodb://localhost',
+			'dbName'           => 'lloco',
+			'fsyncFlag'        => false,
+			'safeFlag'         => false,
+			'useCursor'        => false
+		),
+		/*'edms' => array(
+			'class' => 'EDMSConnection',
+			'dbname' => 'lloco'
+		),*/
+		/*
+		//manage the httpsession in the collection 'edms_httpsession'
+        'session'=>array(
+			'class'=>'EDMSHttpSession',
+			//set this explizit if you want to switch servers/databases
+			//See below: Switching between servers and databases                        
+			//'connectionId'=>'edms',
+			//'dbName'=>'testdb',
+		),
+
+        //manage the cache in the collection 'edms_cache'
+        'cache' => array(
+            'class'=>'EDMSCache',
+            //set to false after first use of the cache to increase performance
+            'ensureIndex' => true,
+
+            //Maybe set connectionId and dbName too: see Switching between servers and databases
+        ),
+
+        //log into the collection 'edms_log'
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'EDMSLogRoute',
+                      'levels'=>'trace, info, error, warning, edms', //add the level edms
+                      //Maybe set connectionId and dbName too: see Switching between servers and databases 
+                    ),
+            ),
+        ),
+ 
+        //uses the collection 'edms_authmanager' for the authmanager
+        'authManager'=>array
+        */
+		/*
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
 		),
+		*/
 		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(
@@ -86,5 +149,5 @@ return array(
 		'adminEmail'=>'ekip@gmx.de',
 	),
 	// Meine Config
-	'layout' => 'mymain',
+	'layout' => 'main',
 );

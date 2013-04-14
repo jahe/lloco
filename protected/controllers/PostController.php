@@ -13,13 +13,39 @@ class PostController extends CController
 		$this->render('index', array('ansage' => 'HELLO JANNIK'));
 	}
 
-	public function actionShow($id)
+	public function actionShow()
 	{
-		$this->render('index', array('ansage' => $id));
+		$posts = Post::model()->findAll();
+		$this->render('showPost', array('posts' => $posts));
 	}
-	public function actionLogout()
+
+	public function actionCreate()
 	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
+		$request = Yii::app()->request;
+
+		if ($request->isPostRequest)
+		{
+			$username = $request->getPost('username');
+			$title = $request->getPost('title');
+			$content = $request->getPost('content');
+
+			$post = new Post();
+			$post->username = $username;
+			$post->title = $title;
+			$post->content = $content;
+			$test = $post->save();
+
+			$posts = Post::model()->findAll();
+			$this->render('showPost', array('posts' => $posts));
+		}
+		else
+		{
+			$this->render('createPost', array('actionPath' => $request->getUrl()));
+		}
+	}
+
+	public function actionListAll()
+	{
+
 	}
 }
