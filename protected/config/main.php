@@ -38,6 +38,12 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+		'authManager' => array(
+			'class' => 'CPhpAuthManager',
+			//'authFile' => 'protected/data/auth.php',
+			'defaultRoles' => array('guest', 'authenticated'),
+			'showErrors' => true,
+		),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -84,11 +90,11 @@ return array(
 					'levels'=>'error, warning',
 				),
 				// uncomment the following to show log messages on web pages
-				/*
+				
 				array(
 					'class'=>'CWebLogRoute',
 				),
-				*/
+				
 			),
 		),
 	),

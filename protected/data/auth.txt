@@ -1,0 +1,35 @@
+<?php
+
+/*
+ * These are the assignments that Yii uses to create the auth.php file.
+ */
+
+$auth = Yii::app()->authManager;
+$auth->clearAll();
+
+$auth->createOperation('createPost', 'Creating a post.');
+$auth->createOperation('readPost', 'Reading a post.');
+$auth->createOperation('deletePost', 'Deleting a post.');
+
+//$bizRule = 'return Yii::app()->user->isGuest;';
+$role = $auth->createRole('guest', 'A user that is not signed in.');
+$role->addChild('readPost');
+
+$bizRule = 'return Yii::app()->user->id == $params["author"];';
+$task = $auth->createTask('manageOwnPost', 'Manage own post.', $bizRule);
+$task->addChild('deletePost');
+
+$bizRule = 'return !Yii::app()->user->isGuest;';
+$role = $auth->createRole('authenticated', 'A signed in user.', $bizRule);
+$role->addChild('guest');
+$role->addChild('createPost');
+$role->addChild('manageOwnPost');
+
+$role = $auth->createRole('admin');
+$role->addChild('createPost');
+$role->addChild('readPost');
+$role->addChild('deletePost');
+
+$auth->save();
+
+?>

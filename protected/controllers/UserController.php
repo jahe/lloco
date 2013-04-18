@@ -1,6 +1,6 @@
 <?php
 
-class PostController extends Controller
+class UserController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -27,23 +27,55 @@ class PostController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				//'users'=>array('*'),
-				'roles' => array('guest'),
+				'actions'=>array('register', 'index','view'),
+				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'delete'),
-				//'users'=>array('@'),
-				'roles' => array('authenticated'),
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
 			),
-			/*array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
-			),*/
+			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
+	}
+	
+	public function actionRegister()
+	{
+		$model = new User;
+		
+		if (isset($_POST['User']))
+		{
+			$model->attributes = $_POST['User'];
+			
+			try
+			{
+				if ($model->save())
+				{
+					$identity = new UserIdentity($model->username, $model->password);
+					if ($identity->authenticate())
+					{
+						Yii::app()->user->login($identity);
+					}
+				}
+			}
+			catch (MongoCursorException $e)
+			{
+				if ($e->getCode() === 11000) // duplicate key
+				{
+					// TODO better implementation
+					echo 'Username already taken!';
+				}
+				else
+					throw $e;
+			}
+		}
+		
+		$this->render('register', array('model' => $model));
 	}
 
 	/**
@@ -63,24 +95,21 @@ class PostController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->user->checkAccess('createPost'))
+		$model=new User;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['User']))
 		{
-			$model=new Post;
-			
-			// Uncomment the following line if AJAX validation is needed
-			// $this->performAjaxValidation($model);
-			
-			if(isset($_POST['Post']))
-			{
-				$model->attributes=$_POST['Post'];
-				if($model->save())
-					$this->redirect(array('view','id'=>$model->_id));
-			}
-			
-			$this->render('create',array(
-					'model'=>$model,
-			));
+			$model->attributes=$_POST['User'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->_id));
 		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -95,9 +124,9 @@ class PostController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Post']))
+		if(isset($_POST['User']))
 		{
-			$model->attributes=$_POST['Post'];
+			$model->attributes=$_POST['User'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->_id));
 		}
@@ -117,16 +146,11 @@ class PostController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$model = $this->loadModel($id);
-			$params = array('author' => $model->authorId);
-			if (Yii::app()->user->checkAccess('manageOwnPost', $params))
-			{
-				$model->delete();
+			$this->loadModel($id)->delete();
 
-				// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-				if(!isset($_GET['ajax']))
-					$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-			}
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -137,7 +161,7 @@ class PostController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new EMongoDocumentDataProvider('Post');
+		$dataProvider=new EMongoDocumentDataProvider('User');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -148,11 +172,11 @@ class PostController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model = new Post('search');
+		$model = new User('search');
 		$model->unsetAttributes();
 
-		if(isset($_GET['Post']))
-			$model->setAttributes($_GET['Post']);
+		if(isset($_GET['User']))
+			$model->setAttributes($_GET['User']);
 
 		$this->render('admin', array(
 			'model'=>$model
@@ -166,7 +190,7 @@ class PostController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Post::model()->findByPk(new MongoId($id));
+		$model=User::model()->findByPk(new MongoId($id));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -178,7 +202,7 @@ class PostController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='post-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
