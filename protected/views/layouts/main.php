@@ -9,35 +9,38 @@
 
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
-        <style>
-            body {
-                padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-            }
-        </style>
 
+		<style type="text/css">
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+		</style>
 
-
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <!--<link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>-->
+		<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
     </head>
     <body>
+        <!-- Navigationsleiste -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container">
+                    <!-- Collapse-Button -->
                     <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </button>
                     <a class="brand" href="<?php echo Yii::app()->baseUrl; ?>">lloco</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
-                        <li class="active"><a href="<?php echo $this->createUrl('post/show'); ?>">Home</a></li>
-                        <li><a href="<?php echo $this->createUrl('post/create'); ?>">Neuer Post</a></li>
+	                    </ul>
+	                    <ul class="nav pull-right">
+	                    	<?php
+	                    	if (Yii::app()->user->isGuest)
+	                    		$this->widget('LLoginForm');
+	                    	else
+	                    		$this->widget('LUserMenu');
+	                    	?>
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

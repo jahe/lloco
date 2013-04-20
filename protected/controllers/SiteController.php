@@ -72,38 +72,47 @@ class SiteController extends Controller
 		$this->render('contact',array('model'=>$model));
 	}
 
-	/**
-	 * Displays the login page
-	 */
 	public function actionLogin()
 	{
-		$model=new LoginForm;
+		$username = $_POST['username'];
+		$password = $_POST['password'];
 
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
+		// Benutzer mit übergebenem Benutzernamen/Passwort anmelden
+		$identity = new LUserIdentity($username, $password);
+		if($identity->authenticate())
 		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
+			Yii::app()->user->login($identity);
+			$this->render('index', array('ansage' => "angemeldet"));
 		}
-
-		// collect user input data
-		if(isset($_POST['LoginForm']))
+		else
 		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
-				$this->redirect(Yii::app()->user->returnUrl);
+			//$this->renderPartial('_ajaxContent', $data, false, true);
+			//$this->render('index', array('ansage' => "FAIL: " . $identity->errorMessage));
+			$this->render('login', array('errorMsg' => $identity->errorMessage));
 		}
-		// display the login form
-		$this->render('login',array('model'=>$model));
+		// Aktuellen Benutzer abmelden
+		//Yii::app()->user->logout();
+		//$this->redirect(Yii::app()->user->returnUrl);
 	}
 
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
 	public function actionLogout()
 	{
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
+	}
+
+	public function actionSignup()
+	{
+		if (Yii::app()->request->isPostRequest)
+		{
+			$user = new User();
+			$user->username = $_POST['username'];
+			$user->password = $_POST['password'];
+			$user->save();
+
+			$this->redirect(Yii::app()->homeUrl);
+		}
+		else
+			$this->render('signup');
 	}
 }

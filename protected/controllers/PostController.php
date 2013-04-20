@@ -10,7 +10,7 @@ class PostController extends CController
 	{
 		// renders the view file 'protected/views/post/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index', array('ansage' => 'HELLO JANNIK'));
+		$this->render('index', array('ansage' => Yii::app()->user->isGuest));
 	}
 
 	public function actionShow()

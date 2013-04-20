@@ -18,6 +18,8 @@ return array(
 		'application.components.*',
 		'ext.YiiMongoDbSuite.*',
 		//'ext.directmongosuite.components.*',
+		'ext.LLoginForm.*',
+		'ext.LUserMenu.*',
 	),
 
 	'modules'=>array(
