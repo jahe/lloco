@@ -10,20 +10,27 @@ $auth->clearAll();
 $auth->createOperation('createPost', 'Creating a post.');
 $auth->createOperation('readPost', 'Reading a post.');
 $auth->createOperation('deletePost', 'Deleting a post.');
+$auth->createOperation('readComment', 'Reading a comment.');
+$auth->createOperation('deleteComment', 'Deleting a comment.');
 
-//$bizRule = 'return Yii::app()->user->isGuest;';
 $role = $auth->createRole('guest', 'A user that is not signed in.');
 $role->addChild('readPost');
+$role->addChild('readComment');
 
 $bizRule = 'return Yii::app()->user->id == $params["author"];';
 $task = $auth->createTask('manageOwnPost', 'Manage own post.', $bizRule);
 $task->addChild('deletePost');
+
+$bizRule = 'return Yii::app()->user->id == $params["author"];';
+$task = $auth->createTask('manageOwnComment', 'Manage own comment.', $bizRule);
+$task->addChild('deleteComment');
 
 $bizRule = 'return !Yii::app()->user->isGuest;';
 $role = $auth->createRole('authenticated', 'A signed in user.', $bizRule);
 $role->addChild('guest');
 $role->addChild('createPost');
 $role->addChild('manageOwnPost');
+$role->addChild('manageOwnComment');
 
 $role = $auth->createRole('admin');
 $role->addChild('createPost');

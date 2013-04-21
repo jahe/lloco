@@ -1,6 +1,6 @@
 <?php
 
-class PostController extends Controller
+class CommentController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,18 +28,16 @@ class PostController extends Controller
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
 				'actions'=>array('index','view'),
-				//'users'=>array('*'),
-				'roles' => array('guest'),
+				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update', 'delete'),
-				//'users'=>array('@'),
-				'roles' => array('authenticated'),
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
 			),
-			/*array('allow', // allow admin user to perform 'admin' and 'delete' actions
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
-			),*/
+			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
@@ -52,28 +50,9 @@ class PostController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$model = $this->loadModel($id);
-		$comment = $this->newComment($model);
-		
 		$this->render('view',array(
-			'model'=> $model,
-			'comment' => $comment
+			'model'=>$this->loadModel($id),
 		));
-	}
-	
-	protected function newComment($post)
-	{
-		$comment = new Comment;
-		if (isset($_POST['Comment']))
-		{
-			$comment->attributes = $_POST['Comment'];
-			if ($post->addComment($comment))
-			{
-				$this->refresh();
-			}
-		}
-		
-		return $comment;
 	}
 
 	/**
@@ -82,24 +61,21 @@ class PostController extends Controller
 	 */
 	public function actionCreate()
 	{
-		if (Yii::app()->user->checkAccess('createPost'))
+		$model=new Comment;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['Comment']))
 		{
-			$model=new Post;
-			
-			// Uncomment the following line if AJAX validation is needed
-			// $this->performAjaxValidation($model);
-			
-			if(isset($_POST['Post']))
-			{
-				$model->attributes=$_POST['Post'];
-				if($model->save())
-					$this->redirect(array('view','id'=>$model->_id));
-			}
-			
-			$this->render('create',array(
-					'model'=>$model,
-			));
+			$model->attributes=$_POST['Comment'];
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->_id));
 		}
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -114,9 +90,9 @@ class PostController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Post']))
+		if(isset($_POST['Comment']))
 		{
-			$model->attributes=$_POST['Post'];
+			$model->attributes=$_POST['Comment'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->_id));
 		}
@@ -136,19 +112,11 @@ class PostController extends Controller
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$model = $this->loadModel($id);
-			$params = array('author' => $model->authorId);
-			if (Yii::app()->user->checkAccess('manageOwnPost', $params))
-			{
-				$model->deleteComments();
-				$model->delete();
+			$this->loadModel($id)->delete();
 
-				// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-				if(!isset($_GET['ajax']))
-					$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-			}
-			else
-				throw new CHttpException(403, 'You may only delete your own posts.');
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -159,7 +127,7 @@ class PostController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new EMongoDocumentDataProvider('Post');
+		$dataProvider=new EMongoDocumentDataProvider('Comment');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -170,11 +138,11 @@ class PostController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model = new Post('search');
+		$model = new Comment('search');
 		$model->unsetAttributes();
 
-		if(isset($_GET['Post']))
-			$model->setAttributes($_GET['Post']);
+		if(isset($_GET['Comment']))
+			$model->setAttributes($_GET['Comment']);
 
 		$this->render('admin', array(
 			'model'=>$model
@@ -188,7 +156,7 @@ class PostController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Post::model()->findByPk(new MongoId($id));
+		$model=Comment::model()->findByPk(new MongoId($id));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -200,7 +168,7 @@ class PostController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='post-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

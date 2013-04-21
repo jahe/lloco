@@ -28,3 +28,28 @@ $this->menu=array(
 		'_id',
 	),
 )); ?>
+
+<?php
+	$posts = $model->nearPosts();
+	foreach ($posts as $p)
+		{
+			echo '<p>'.$p->title.' ['.$p->longitude.'; '.$p->latitude.'] ';
+			echo round(Post::distance($model->longitude, $model->latitude, $p->longitude, $p->latitude) * 1000).' m';
+			echo ' ('.$p->commentCount().')';
+			echo '</p>';
+		}
+?>
+
+<?php
+	$this->renderPartial('_comments', array(
+		'post' => $model,
+		'comments' => $model->comments()
+	));
+?>
+
+<?php
+	$this->renderPartial('/comment/_form', array(
+		'model' => $comment
+	));
+?>
+	

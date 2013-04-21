@@ -2,6 +2,7 @@
 
 class Post extends EMongoDocument
 {
+	public $_id;
 	public $title;
 	public $content;
 	public $location = array(0, 0);
@@ -37,7 +38,6 @@ class Post extends EMongoDocument
 	
 	public function setLatitude($latitude)
 	{
-		echo 'test';
 		$this->location[1] = floatval($latitude);
 	}
 	
@@ -70,6 +70,73 @@ class Post extends EMongoDocument
 		}
 		else
 			return false;
+	}
+	
+	/*
+	 * Returns the shortest distance in kilometers between two points.
+	 */
+	public static function distance($lon1, $lat1, $lon2, $lat2)
+	{
+		$earthRadius = 6371;
+		
+		$degLon = deg2rad($lon2 - $lon1);
+		$degLat = deg2rad($lat2 - $lat1);
+		
+		$x = sin($degLat / 2) * sin($degLat / 2) + cos($lat1) * cos($lat2) * sin($degLon / 2) * sin($degLon / 2);
+		$distance = 2 * $earthRadius * asin(sqrt($x));
+		
+		return $distance;
+	}
+	
+	public function nearPosts()
+	{
+		
+		$criteria = new EMongoCriteria;
+		$criteria->addCond('location', 'near', $this->location);
+		//$criteria->addCond('location', 'maxDistance', (float) 5 / 111.12);	// 5 km radius
+		//$criteria->sort('location', EMongoCriteria::SORT_ASC);
+		$posts = Post::model()->findAll($criteria);
+		return $posts;
+		
+		/*
+		$query = array(
+			'conditions' => array(
+				'location' => array(
+					'near' => array($this->location[0], $this->location[1]),
+				),
+			)
+		);
+		$criteria = new EMongoCriteria($query);
+		return Post::model()->findAll($criteria);
+		*/
+	}
+	
+	public function comments()
+	{
+		$criteria = new EMongoCriteria;
+		$criteria->postId = new MongoId($this->_id);
+		$criteria->sort('createTime', EMongoCriteria::SORT_DESC);
+		return Comment::model()->findAll($criteria);
+	}
+	
+	public function commentCount()
+	{
+		$criteria = new EMongoCriteria;
+		$criteria->postId = new MongoId($this->_id);
+		return Comment::model()->count($criteria);
+	}
+	
+	public function addComment($comment)
+	{
+		$comment->postId = new MongoId($this->_id);
+		return $comment->save();
+	}
+	
+	public function deleteComments()
+	{
+		$criteria = new EMongoCriteria;
+		$criteria->postId = new MongoId($this->_id);
+		Comment::model()->deleteAll($criteria);
 	}
 }
 
