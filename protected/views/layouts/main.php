@@ -51,7 +51,30 @@
         <?php echo $content; ?>
         </div>
 
+        <footer class="container">
+            <div class="row">
+                <div class="span4">
+                    <p>
+                        <span class="label label-important"><i class="icon-map-marker icon-white"></i> <strong><span id="posts"> </span></strong> Posts
+                    </p>
+                </div>
+            </div>
+        </footer>
+
         <script src="http://code.jquery.com/jquery.js"></script>
         <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
+        <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+        <script>
+            window.onload = function () {
+                var socket = io.connect("http://localhost:8000");
+                
+                var postsSpan = document.getElementById("posts");
+                
+                socket.on('status', function (data) {
+                    var status = JSON.parse(data);
+                    postsSpan.firstChild.nodeValue = status.posts;
+                });
+            }
+    </script>
     </body>
 </html>
