@@ -82,7 +82,7 @@ class Post extends EMongoDocument
 		$degLon = deg2rad($lon2 - $lon1);
 		$degLat = deg2rad($lat2 - $lat1);
 		
-		$x = sin($degLat / 2) * sin($degLat / 2) + cos($lat1) * cos($lat2) * sin($degLon / 2) * sin($degLon / 2);
+		$x = sin($degLat / 2) * sin($degLat / 2) + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($degLon / 2) * sin($degLon / 2);
 		$distance = 2 * $earthRadius * asin(sqrt($x));
 		
 		return $distance;
@@ -92,7 +92,7 @@ class Post extends EMongoDocument
 	{
 		
 		$criteria = new EMongoCriteria;
-		$criteria->addCond('location', 'near', $this->location);
+		$criteria->addCond('location', 'nearSphere', $this->location);
 		//$criteria->addCond('location', 'maxDistance', (float) 5 / 111.12);	// 5 km radius
 		//$criteria->sort('location', EMongoCriteria::SORT_ASC);
 		$posts = Post::model()->findAll($criteria);

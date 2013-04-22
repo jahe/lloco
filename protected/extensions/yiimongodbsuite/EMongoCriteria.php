@@ -64,7 +64,8 @@ class EMongoCriteria extends CComponent
 		'=='			=> '$$eq',
 		'where'			=> '$where',
 		'near'			=> '$near',
-		'maxDistance'	=> '$maxDistance'
+		'maxDistance'	=> '$maxDistance',
+		'nearSphere'	=> '$nearSphere'
 	);
 
 	const SORT_ASC		= 1;
