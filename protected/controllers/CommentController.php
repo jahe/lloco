@@ -1,18 +1,13 @@
 <?php
 
-class UserController extends CController
+class CommentController extends Controller
 {
 	/**
-	 * Lists all models.
+	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new EMongoDocumentDataProvider('User');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
-	
+	public $layout='//layouts/column2';
+
 	/**
 	 * @return array action filters
 	 */
@@ -32,7 +27,7 @@ class UserController extends CController
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('register', 'index','view'),
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -48,41 +43,6 @@ class UserController extends CController
 			),
 		);
 	}
-	/*
-	public function actionRegister()
-	{
-		$model = new User;
-		
-		if (isset($_POST['User']))
-		{
-			$model->attributes = $_POST['User'];
-			
-			try
-			{
-				if ($model->save())
-				{
-					$identity = new UserIdentity($model->username, $model->password);
-					if ($identity->authenticate())
-					{
-						Yii::app()->user->login($identity);
-					}
-				}
-			}
-			catch (MongoCursorException $e)
-			{
-				if ($e->getCode() === 11000) // duplicate key
-				{
-					// TODO better implementation
-					echo 'Username already taken!';
-				}
-				else
-					throw $e;
-			}
-		}
-		
-		$this->render('register', array('model' => $model));
-	}
-	*/
 
 	/**
 	 * Displays a particular model.
@@ -101,14 +61,14 @@ class UserController extends CController
 	 */
 	public function actionCreate()
 	{
-		$model=new User;
+		$model=new Comment;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Comment']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Comment'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->_id));
 		}
@@ -130,9 +90,9 @@ class UserController extends CController
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['User']))
+		if(isset($_POST['Comment']))
 		{
-			$model->attributes=$_POST['User'];
+			$model->attributes=$_POST['Comment'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->_id));
 		}
@@ -163,15 +123,26 @@ class UserController extends CController
 	}
 
 	/**
+	 * Lists all models.
+	 */
+	public function actionIndex()
+	{
+		$dataProvider=new EMongoDocumentDataProvider('Comment');
+		$this->render('index',array(
+			'dataProvider'=>$dataProvider,
+		));
+	}
+
+	/**
 	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
-		$model = new User('search');
+		$model = new Comment('search');
 		$model->unsetAttributes();
 
-		if(isset($_GET['User']))
-			$model->setAttributes($_GET['User']);
+		if(isset($_GET['Comment']))
+			$model->setAttributes($_GET['Comment']);
 
 		$this->render('admin', array(
 			'model'=>$model
@@ -185,7 +156,7 @@ class UserController extends CController
 	 */
 	public function loadModel($id)
 	{
-		$model=User::model()->findByPk(new MongoId($id));
+		$model=Comment::model()->findByPk(new MongoId($id));
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -197,12 +168,10 @@ class UserController extends CController
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 	}
 }
-
-?>

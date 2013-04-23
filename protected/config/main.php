@@ -24,14 +24,14 @@ return array(
 
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
-		/*
+
 		'gii'=>array(
 			'class'=>'system.gii.GiiModule',
-			'password'=>'Enter Your Password Here',
+			'password'=>'giipw',
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
+			'generatorPaths' => array('ext.yiimongodbsuite.gii'),
 		),
-		*/
 	),
 
 	/*
@@ -66,48 +66,20 @@ return array(
 			'class'            => 'EMongoDB',
 			'connectionString' => 'mongodb://localhost',
 			'dbName'           => 'lloco',
-			'fsyncFlag'        => false,
-			'safeFlag'         => false,
-			'useCursor'        => false
+			'fsyncFlag'        => true,
+			'safeFlag'         => true,
+			'useCursor'        => false,
 		),
 		/*'edms' => array(
 			'class' => 'EDMSConnection',
 			'dbname' => 'lloco'
 		),*/
-		/*
-		//manage the httpsession in the collection 'edms_httpsession'
-        'session'=>array(
-			'class'=>'EDMSHttpSession',
-			//set this explizit if you want to switch servers/databases
-			//See below: Switching between servers and databases                        
-			//'connectionId'=>'edms',
-			//'dbName'=>'testdb',
+        'authManager' => array(
+			'class' => 'CPhpAuthManager',
+			//'authFile' => 'protected/data/auth.php',
+			'defaultRoles' => array('guest', 'authenticated'),
+			'showErrors' => true,
 		),
-
-        //manage the cache in the collection 'edms_cache'
-        'cache' => array(
-            'class'=>'EDMSCache',
-            //set to false after first use of the cache to increase performance
-            'ensureIndex' => true,
-
-            //Maybe set connectionId and dbName too: see Switching between servers and databases
-        ),
-
-        //log into the collection 'edms_log'
-        'log'=>array(
-            'class'=>'CLogRouter',
-            'routes'=>array(
-                array(
-                    'class'=>'EDMSLogRoute',
-                      'levels'=>'trace, info, error, warning, edms', //add the level edms
-                      //Maybe set connectionId and dbName too: see Switching between servers and databases 
-                    ),
-            ),
-        ),
- 
-        //uses the collection 'edms_authmanager' for the authmanager
-        'authManager'=>array
-        */
 		/*
 		'db'=>array(
 			'connectionString' => 'sqlite:'.dirname(__FILE__).'/../data/testdrive.db',
@@ -150,6 +122,5 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'ekip@gmx.de',
 	),
-	// Meine Config
 	'layout' => 'main',
 );

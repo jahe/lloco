@@ -1,20 +1,28 @@
 <?php
+
 class User extends EMongoDocument
 {
-  public $_id;
   public $username;
   public $password;
-
-  // This has to be defined in every model, this is same as with standard Yii ActiveRecord
-  public static function model($className=__CLASS__)
-  {
-    return parent::model($className);
-  }
-
-  // This method is required!
+  public $email;
+  
   public function getCollectionName()
   {
     return 'users';
   }
+  
+  public function rules()
+  {
+    return array(
+      array('username, password, email', 'required'),
+      //array('username', 'unique')
+    );
+  }
+  
+  public static function model($className=__CLASS__)
+  {
+    return parent::model($className);
+  }
 }
+
 ?>

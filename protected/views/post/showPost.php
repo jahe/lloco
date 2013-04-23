@@ -8,7 +8,7 @@ foreach ($posts as $postnr => $postdata)
 	</header>
 	<p><?php echo $postdata->content; ?></p>
 	<footer>
-		<p>von <?php echo $postdata->username; ?></p>
+		<p>von <?php echo $postdata->_id; ?></p>
 	</footer>
 </article>
 <?php
