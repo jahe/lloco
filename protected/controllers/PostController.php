@@ -25,12 +25,15 @@ class PostController extends CController
 
 		if ($request->isPostRequest)
 		{
-			$username = $request->getPost('username');
+			//$username = $request->getPost('username');
+			$userId = Yii::app()->user->userid;
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
 
+			// HIER NOCH MEHR Attribute!!!
+
 			$post = new Post();
-			$post->username = $username;
+			$post->authorId = $userId;
 			$post->title = $title;
 			$post->content = $content;
 			$test = $post->save();
