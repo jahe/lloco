@@ -1,3 +1,6 @@
+<?php
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/geo.js', CClientScript::POS_BEGIN);
+ ?>
 <form class="form-horizontal" method="post" action="<?php echo $actionPath ?>">
   <div class="control-group">
     <label class="control-label" for="inputTitle">Titel</label>
@@ -17,13 +20,20 @@
     <label class="control-label" for="inputCategory">Kategorie</label>
     <div class="controls">
       <select name="category" id="inputCategory">
-        <?php
-        foreach ($categories as $nr => $catdata)
-        {
-          echo "<option value=\"$catdata->title\">$catdata->title</option>";
-        }
-        ?>
+      <?php
+      foreach ($categories as $nr => $catdata)
+      {
+        echo "<option value=\"$catdata->title\">$catdata->title</option>";
+      }
+      ?>
       </select>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputLocation">Standort</label>
+    <div class="controls">
+      <div id="map" style="height:300px;"></div>
     </div>
   </div>
 

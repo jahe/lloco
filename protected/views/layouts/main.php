@@ -76,23 +76,24 @@
         
         <!--<script src="http://localhost:8000/socket.io/socket.io.js"></script>-->
         <script>
+            var map;
             window.onload = function () {
-                var map = new L.Map('map');
-var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+                map = new L.Map('map');
 
-    cloudmade = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {subdomains: '1234',type: 'osm',attribution: 'Map data ' + L.TileLayer.OSM_ATTR + ', ' + 'Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" />'});
+                tile = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {subdomains: '1234',type: 'osm',attribution: 'Map data ' + L.TileLayer.OSM_ATTR + ', ' + 'Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" />'});
 
-var london = new L.LatLng(51.505, -0.09);
-// geographical point (longitude and latitude)
-map.setView(london, 13).addLayer(cloudmade);
+                var london = new L.LatLng(51.505, -0.09);
+                // geographical point (longitude and latitude)
+                map.setView(london, 13).addLayer(tile);
+                //map.setView(new L.LatLng(40.737, -73.923), 8);
                 /*
                 var socket = io.connect("http://localhost:8000");
-                
+
                 var postsSpan = document.getElementById("posts");
-                
+
                 socket.on('status', function (data) {
-                    var status = JSON.parse(data);
-                    postsSpan.firstChild.nodeValue = status.posts;
+                var status = JSON.parse(data);
+                postsSpan.firstChild.nodeValue = status.posts;
                 });
                 */
             }

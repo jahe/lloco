@@ -1,5 +1,6 @@
+
 <div class="row">
-	<div class="span4">
+	<div class="span6">
 	<?php
 	foreach ($posts as $postnr => $postdata)
 	{
@@ -10,14 +11,14 @@
 		</header>
 		<p><?php echo $postdata->content; ?></p>
 		<footer>
-			<p>von <?php echo $postdata->_id; ?></p>
+			<p>von <?php echo $postdata->_id; ?> in <?php echo $postdata->category; ?></p>
 		</footer>
 	</article>
 	<?php
 	}
 	?>
 	</div>
-	<div class="span4">
+	<div class="span6">
 		<div id="map" style="height:600px;">
 		</div>
 	</div>
