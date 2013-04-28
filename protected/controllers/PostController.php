@@ -15,9 +15,28 @@ class PostController extends CController
 
 	public function actionShow()
 	{
-		$posts = Post::model()->findAll();
-		$this->render('showPost', array('posts' => $posts));
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$criteria = new EMongoCriteria;
+			$criteria->addCond('location', 'nearSphere', array($_POST['longitude'], $_POST['latitude']));
+			$posts = Post::model()->findAll($criteria);
+			$this->renderPartial('_listPosts', array('posts' => $posts));
+		}
+		else
+		{
+			//$posts = Post::model()->findAll();
+			//$this->render('showPost', array('posts' => $posts));
+			$this->render('showPost');
+		}
 	}
+	
+	/*public function actionPartial()
+	{
+		$criteria = new EMongoCriteria;
+		$criteria->addCond('location', 'nearSphere', array($_POST['longitude'], $_POST['latitude']));
+		$posts = Post::model()->findAll($criteria);
+		$this->renderPartial('_listPosts', array('posts' => $posts));
+	}*/
 
 	public function actionCreate()
 	{

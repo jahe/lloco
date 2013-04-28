@@ -1,24 +1,23 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/showPostGeo.js', CClientScript::POS_BEGIN);
+	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/geo2.js');
 ?>
+
+<?php
+	Yii::app()->clientScript->registerScript('geoAjax',
+		"var geo = new lloco.GeoProvider();"
+		. "window.addEventListener('load', geo.getLocation, false);"
+		. "geo.registerCallback(function (position) {"
+		. CHtml::ajax(array('url' => CController::createUrl('post/show'),
+							'type' => 'POST',
+							'data' => 'js:{longitude: position.coords.longitude, latitude: position.coords.latitude}',
+							'update' => '#data'))
+		. "});"
+	);
+?>
+
 <div class="row">
-	<div class="span6">
-	<?php
-	foreach ($posts as $postnr => $postdata)
-	{
-	?>
-	<article>
-		<header>
-			<h1><?php echo $postdata->title; ?></h1>
-		</header>
-		<p><?php echo $postdata->content; ?></p>
-		<footer>
-			<p>von <?php echo $postdata->_id; ?> in <?php echo $postdata->category; ?></p>
-		</footer>
-	</article>
-	<?php
-	}
-	?>
+	<div class="span6" id="data">
+	Lade Posts...
 	</div>
 	<div class="span6">
 		<div id="map" style="height:600px;">
