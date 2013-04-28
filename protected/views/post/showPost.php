@@ -25,9 +25,10 @@
 		<script type="text/javascript">
 		var map;
 
+		// --- Map-Anzeige ----
 		$(document).ready(function() {
 			// load Posts as JSON-Object
-			var posts = <?php if (isset($posts)) {echo json_encode($posts);} else { echo "";}?>;
+			//var posts = <?php //if (isset($posts)) {echo json_encode($posts);} else { echo "";}?>;
 
 			console.log(posts);
 			map = new L.Map('map');
