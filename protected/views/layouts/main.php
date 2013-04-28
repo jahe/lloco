@@ -7,6 +7,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <!-- leaflet.js -->
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+        <![endif]-->
+
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" media="screen">
 
@@ -61,11 +67,25 @@
             </div>
         </footer>
 
-        <script src="http://code.jquery.com/jquery.js"></script>
-        <script src="<?php echo Yii::app()->request->baseUrl; ?>/js/bootstrap.min.js"></script>
-        <script src="http://localhost:8000/socket.io/socket.io.js"></script>
+        <?php
+        // ---- JavaScript includes ----
+        Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.5/leaflet.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap.min.js', CClientScript::POS_END);
+        ?>
+        
+        <!--<script src="http://localhost:8000/socket.io/socket.io.js"></script>-->
         <script>
             window.onload = function () {
+                var map = new L.Map('map');
+var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png',
+
+    cloudmade = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {subdomains: '1234',type: 'osm',attribution: 'Map data ' + L.TileLayer.OSM_ATTR + ', ' + 'Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" />'});
+
+var london = new L.LatLng(51.505, -0.09);
+// geographical point (longitude and latitude)
+map.setView(london, 13).addLayer(cloudmade);
+                /*
                 var socket = io.connect("http://localhost:8000");
                 
                 var postsSpan = document.getElementById("posts");
@@ -74,7 +94,8 @@
                     var status = JSON.parse(data);
                     postsSpan.firstChild.nodeValue = status.posts;
                 });
+                */
             }
-    </script>
+        </script>
     </body>
 </html>

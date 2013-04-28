@@ -29,6 +29,7 @@ class PostController extends CController
 			$userId = Yii::app()->user->userid;
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
+			$category = $request->getPost('category');
 
 			// HIER NOCH MEHR Attribute!!!
 
@@ -36,6 +37,7 @@ class PostController extends CController
 			$post->authorId = $userId;
 			$post->title = $title;
 			$post->content = $content;
+			$post->category = $category;
 			$test = $post->save();
 
 			$posts = Post::model()->findAll();
@@ -43,7 +45,9 @@ class PostController extends CController
 		}
 		else
 		{
-			$this->render('createPost', array('actionPath' => $request->getUrl()));
+			$categories = Category::getAllCategories();
+			$this->render('createPost', array(	'actionPath' => $request->getUrl(),
+												'categories' => $categories));
 		}
 	}
 
