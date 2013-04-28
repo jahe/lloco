@@ -30,6 +30,8 @@ class PostController extends CController
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
 			$category = $request->getPost('category');
+			$latitude = $request->getPost('latitude');
+			$longitude = $request->getPost('longitude');
 
 			// HIER NOCH MEHR Attribute!!!
 
@@ -38,6 +40,8 @@ class PostController extends CController
 			$post->title = $title;
 			$post->content = $content;
 			$post->category = $category;
+			$post->latitude = $latitude;
+			$post->longitude = $longitude;
 			$test = $post->save();
 
 			$posts = Post::model()->findAll();

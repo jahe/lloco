@@ -65,14 +65,17 @@
 
         <?php
         // ---- JavaScript includes ----
-        Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery.js', CClientScript::POS_BEGIN);
         Yii::app()->clientScript->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.5/leaflet.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap.min.js', CClientScript::POS_END);
         ?>
         
         <!--<script src="http://localhost:8000/socket.io/socket.io.js"></script>-->
-        <script>
+        <!--<script>
             var map;
+            $(document).ready(function() {
+                console.log(map);
+            });
             window.onload = function () {
                 map = new L.Map('map');
 
@@ -93,6 +96,6 @@
                 });
                 */
             }
-        </script>
+        </script>-->
     </body>
 </html>
