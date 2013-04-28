@@ -18,7 +18,7 @@
 		//var map = L.map('map');
 		var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(map);
 		//map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude));
-		map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 8);
+		map.setView(new L.LatLng(position.coords.latitude, position.coords.longitude), 13);
 	}
 	
 	function setError(error) {

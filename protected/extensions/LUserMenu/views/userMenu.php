@@ -5,7 +5,7 @@
     </a>
     <ul class="dropdown-menu">
       <li>
-        <a tabindex="-1" href="<?php echo $this->getController()->createUrl('post/create'); ?>"><i class="icon-off"></i> Post erstellen</a>
+        <a tabindex="-1" href="<?php echo $this->getController()->createUrl('post/create'); ?>"><i class="icon-plus"></i> Post erstellen</a>
       </li>
     	<li class="divider"></li>
     	<li>

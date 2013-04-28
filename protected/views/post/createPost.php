@@ -1,6 +1,6 @@
 <?php
 Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/geo.js', CClientScript::POS_BEGIN);
- ?>
+?>
 <form class="form-horizontal" method="post" action="<?php echo $actionPath ?>">
   <div class="control-group">
     <label class="control-label" for="inputTitle">Titel</label>
@@ -34,6 +34,8 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/geo.js',
     <label class="control-label" for="inputLocation">Standort</label>
     <div class="controls">
       <div id="map" style="height:300px;"></div>
+      <input type="hidden" name="latitude" value="">
+      <input type="hidden" name="longitude" value="">
     </div>
   </div>
 

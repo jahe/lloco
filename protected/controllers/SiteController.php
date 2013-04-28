@@ -107,8 +107,15 @@ class SiteController extends Controller
 		{
 			$user = new User();
 			$user->username = $_POST['username'];
+			$user->email = $_POST['email'];
 			$user->password = $_POST['password'];
 			$user->save();
+
+			$identity = new LUserIdentity($user->username, $user->password);
+			if($identity->authenticate())
+			{
+				Yii::app()->user->login($identity);
+			}
 
 			$this->redirect(Yii::app()->homeUrl);
 		}

@@ -58,13 +58,9 @@
         </div>
 
         <footer class="container">
-            <div class="row">
-                <div class="span4">
-                    <p>
-                        <span class="label label-important"><i class="icon-map-marker icon-white"></i> <strong><span id="posts"> </span></strong> Posts
-                    </p>
-                </div>
-            </div>
+            <p>
+                <span class="label label-important"><i class="icon-map-marker icon-white"></i> <strong><span id="posts"> </span></strong> Posts
+            </p>
         </footer>
 
         <?php
