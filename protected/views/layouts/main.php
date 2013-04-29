@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
     <head>
+        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
@@ -15,6 +16,7 @@
 
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" media="screen">
+        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-tag.css" rel="stylesheet">
 
 		<style type="text/css">
 			body {
@@ -68,6 +70,7 @@
         //Yii::app()->clientScript->registerScriptFile('http://code.jquery.com/jquery.js', CClientScript::POS_BEGIN);
         //Yii::app()->clientScript->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.5/leaflet.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap.min.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap-tag.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/leaflet.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.js', CClientScript::POS_BEGIN);
 

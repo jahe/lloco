@@ -49,6 +49,9 @@ class PostController extends CController
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
 			$category = $request->getPost('category');
+			$tags = explode(",", $request->getPost('tags'));
+			foreach ($tags as $key => $value)
+				$tags[$key] = trim($value);
 			$latitude = $request->getPost('latitude');
 			$longitude = $request->getPost('longitude');
 
@@ -59,6 +62,7 @@ class PostController extends CController
 			$post->title = $title;
 			$post->content = $content;
 			$post->category = $category;
+			$post->tags = $tags;
 			$post->latitude = $latitude;
 			$post->longitude = $longitude;
 			$test = $post->save();

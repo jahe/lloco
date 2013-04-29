@@ -31,6 +31,13 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPo
   </div>
 
   <div class="control-group">
+    <label class="control-label" for="inputTags">Tags</label>
+    <div class="controls">
+      <input id="inputTags" class="input-tag" type="text" name="tags" data-provide="tag">
+    </div>
+  </div>
+
+  <div class="control-group">
     <label class="control-label" for="inputLocation">Standort</label>
     <div class="controls">
       <div id="map" style="height:300px;"></div>
