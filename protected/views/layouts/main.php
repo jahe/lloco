@@ -17,6 +17,7 @@
         <!-- Bootstrap -->
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" media="screen">
         <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-tag.css" rel="stylesheet">
+        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome.css" rel="stylesheet">
 
 		<style type="text/css">
 			body {
@@ -39,6 +40,10 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="brand" href="<?php echo Yii::app()->createUrl('post/show'); ?>">lloco</a>
+                    <ul class="nav">
+                        <li><a href="<?php echo Yii::app()->createUrl('map/show'); ?>"><i class="icon-map-marker icon-white"></i>&nbsp;&nbsp;Map</a></li>
+                        <li><a href="#"><i class="icon-th icon-white"></i>&nbsp;&nbsp;Überblick</a></li>
+                    </ul>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
 	                    </ul>
@@ -55,7 +60,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" id="content">
         <?php echo $content; ?>
         </div>
 

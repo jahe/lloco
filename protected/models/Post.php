@@ -8,7 +8,7 @@ class Post extends EMongoDocument
   public $content;
   public $location = array(0, 0);
   public $tags;
-  public $timestamp;
+  public $createTime;
   public $category;
 
   // This has to be defined in every model, this is same as with standard Yii ActiveRecord
@@ -74,8 +74,7 @@ class Post extends EMongoDocument
     {
       if ($this->isNewRecord)
       {
-        $this->timestamp = time();
-        $this->authorId = Yii::app()->user->id;
+        
       }
       
       return true;
@@ -126,7 +125,7 @@ class Post extends EMongoDocument
   {
     $criteria = new EMongoCriteria;
     $criteria->postId = new MongoId($this->_id);
-    $criteria->sort('timestamp', EMongoCriteria::SORT_DESC);
+    $criteria->sort('createTime', EMongoCriteria::SORT_DESC);
     return Comment::model()->findAll($criteria);
   }
   

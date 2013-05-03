@@ -1,5 +1,5 @@
 <?php
-Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPostGeo.js', CClientScript::POS_BEGIN);
+Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPostGeo.js', CClientScript::POS_END);
 ?>
 <form class="form-horizontal" method="post" name="createPost" action="<?php echo $actionPath ?>">
   <div class="control-group">
@@ -33,26 +33,14 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPo
   <div class="control-group">
     <label class="control-label" for="inputTags">Tags</label>
     <div class="controls">
-      <input id="inputTags" class="input-tag" type="text" name="tags" data-provide="tag">
+      <input id="inputTags" class="input-tag" type="text" placeholder="Tags..." name="tags" data-provide="tag">
     </div>
   </div>
 
   <div class="control-group">
     <label class="control-label" for="inputLocation">Standort</label>
-    <div class="controls">
-      <div id="map" style="height:300px;"></div>
-      <script type="text/javascript">
-        var map;
-
-        $(document).ready(function() {
-          map = new L.Map('map');
-          tile = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {subdomains: '1234',type: 'osm',attribution: 'Map data ' + L.TileLayer.OSM_ATTR + ', ' + 'Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" />'});
-
-          var london = new L.LatLng(51.505, -0.09);
-          // geographical point (longitude and latitude)
-          map.setView(london, 13).addLayer(tile);
-        });
-      </script>
+    <div id="locationwrapper" class="controls">
+      <p id="locationstatus" class="label label-info"><i class="icon-spinner icon-spin"></i> wird ermittelt</p>
       <input type="hidden" name="latitude" value="">
       <input type="hidden" name="longitude" value="">
     </div>
@@ -60,7 +48,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPo
 
   <div class="control-group">
     <div class="controls">
-      <button type="submit" class="btn">Posten</button>
+      <button id="submitpost" type="submit" class="btn btn-primary disabled" disabled>Posten</button>
     </div>
   </div>
 </form>

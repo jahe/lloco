@@ -45,7 +45,7 @@ class PostController extends CController
 		if ($request->isPostRequest)
 		{
 			//$username = $request->getPost('username');
-			$userId = Yii::app()->user->userid;
+			//$userId = Yii::app()->user->userid;
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
 			$category = $request->getPost('category');
@@ -58,13 +58,15 @@ class PostController extends CController
 			// HIER NOCH MEHR Attribute!!!
 
 			$post = new Post();
-			$post->authorId = $userId;
+			//$post->authorId = $userId;
+			$post->authorId = Yii::app()->user->id;
 			$post->title = $title;
 			$post->content = $content;
 			$post->category = $category;
 			$post->tags = $tags;
 			$post->latitude = $latitude;
 			$post->longitude = $longitude;
+			$post->createTime = time();
 			$test = $post->save();
 
 			$posts = Post::model()->findAll();

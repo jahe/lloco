@@ -1,28 +1,8 @@
-<?php
-	Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/geo2.js');
-?>
-
-<?php
-	Yii::app()->clientScript->registerScript('geoAjax',
-		"var geo = new lloco.GeoProvider();"
-		. "window.addEventListener('load', geo.getLocation, false);"
-		. "geo.registerCallback(function (position) {"
-		. CHtml::ajax(array('url' => CController::createUrl('post/show'),
-							'type' => 'POST',
-							'data' => 'js:{longitude: position.coords.longitude, latitude: position.coords.latitude}',
-							'update' => '#data'))
-		. "});"
-	);
-?>
-
-<div class="row">
-	<div class="span6" id="data">
-		<i class="icon-spinner icon-spin"></i> Lade Daten...
-	</div>
-	<div class="span6">
-		<div id="map" style="height:200px;">
-		</div>
-		<script type="text/javascript">
+<?php  Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl . "/css/map.css", ''); ?>
+<div id="mapView">
+	<div id="map"></div>
+</div>
+<script type="text/javascript">
 		var map;
 
 		// --- Map-Anzeige ----
@@ -51,5 +31,3 @@
 			*/
 		});
 		</script>
-	</div>
-</div>

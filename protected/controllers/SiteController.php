@@ -90,9 +90,6 @@ class SiteController extends Controller
 			//$this->render('index', array('ansage' => "FAIL: " . $identity->errorMessage));
 			$this->render('login', array('errorMsg' => $identity->errorMessage));
 		}
-		// Aktuellen Benutzer abmelden
-		//Yii::app()->user->logout();
-		//$this->redirect(Yii::app()->user->returnUrl);
 	}
 
 	public function actionLogout()
