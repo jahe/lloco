@@ -17,10 +17,11 @@ class PostController extends CController
 	{
 		if (Yii::app()->request->isAjaxRequest)
 		{
+			$location = array($_POST['longitude'], $_POST['latitude']);
 			$criteria = new EMongoCriteria;
-			$criteria->addCond('location', 'nearSphere', array($_POST['longitude'], $_POST['latitude']));
+			$criteria->addCond('location', 'nearSphere', $location);
 			$posts = Post::model()->findAll($criteria);
-			$this->renderPartial('_listPosts', array('posts' => $posts));
+			$this->renderPartial('_listPosts', array('posts' => $posts, 'location' => $location));
 		}
 		else
 		{
