@@ -12,7 +12,22 @@ class PostController extends CController
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index', array('ansage' => Yii::app()->user->isGuest));
 	}
-
+	
+	public function actionView()
+	{
+		$post = null;
+		if (isset($_GET['id']))
+		{
+			$criteria = new EMongoCriteria;
+			$criteria->_id = new MongoId($_GET['id']);
+			$post = Post::model()->find($criteria);
+		}
+		if ($post === null)
+			throw new CHttpException(404, 'Dieser Post existiert nicht!');
+		
+		$this->render('view', array('post' => $post));
+	}
+	
 	public function actionShow()
 	{
 		if (Yii::app()->request->isAjaxRequest)

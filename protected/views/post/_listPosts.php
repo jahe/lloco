@@ -4,7 +4,7 @@ foreach ($posts as $post)
 ?>
 	<article>
 		<header>
-			<h1><?php echo $post->title; ?></h1>
+			<h1><?php echo CHtml::link($post->title, Yii::app()->createUrl('post/view', array('id' => $post->_id))); ?></h1>
 			<p><?php echo date('d.m.Y, H:i \U\h\r', $post->createTime); ?>
 			in 
 			<?php
