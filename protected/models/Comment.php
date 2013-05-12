@@ -41,6 +41,14 @@ class Comment extends EMongoDocument
 		else
 			return false;
 	}
+	
+	public function attributeLabels()
+	{
+		return array(
+			'title' => 'Titel',
+			'content' => 'Kommentar'
+		);
+	}
 }
 
 ?>

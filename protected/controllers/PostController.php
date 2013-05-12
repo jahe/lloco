@@ -25,7 +25,7 @@ class PostController extends CController
 		if ($post === null)
 			throw new CHttpException(404, 'Dieser Post existiert nicht!');
 		
-		$this->render('view', array('post' => $post));
+		$this->render('view', array('post' => $post, 'comment' => new Comment));
 	}
 	
 	public function actionShow()

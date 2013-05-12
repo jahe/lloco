@@ -13,3 +13,11 @@
 	</header>
 	<p><?php echo $post->content; ?></p>
 </article>
+
+<?php
+	$this->renderPartial('_comments', array('comments' => $post->comments()));
+?>
+
+<?php
+	$this->renderPartial('/comment/_form', array('comment' => $comment));
+?>
