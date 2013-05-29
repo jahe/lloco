@@ -119,7 +119,7 @@ class Post extends EMongoDocument
 
         $db = Yii::app()->edmsMongoDB();
         $col = $db->posts;
-        $result = $col->find(['location' => ['$within' => ['$box' => [[$sw[0], $sw[1]], [$ne[0], $ne[1]]]]]], ['location' => true, 'category_id' => true]);
+        $result = $col->find(['location' => ['$within' => ['$box' => [[$sw[0], $sw[1]], [$ne[0], $ne[1]]]]]], ['location' => true, 'category' => true]);
         return iterator_to_array($result, false);
     }
 

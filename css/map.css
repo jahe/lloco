@@ -1,4 +1,6 @@
-
+body {
+	padding-top: 0;
+}
 
 #map {
 	position: relative;

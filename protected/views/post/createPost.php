@@ -23,7 +23,7 @@ Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/createPo
       <?php
       foreach ($categories as $nr => $catdata)
       {
-        echo "<option value=\"$catdata->title\">$catdata->title</option>";
+        echo "<option value=\"$catdata->_id\">$catdata->title</option>";
       }
       ?>
       </select>

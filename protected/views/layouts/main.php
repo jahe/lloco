@@ -4,7 +4,7 @@
         <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,19 +21,26 @@
             <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/Leaflet.markercluster/MarkerCluster.Default.ie.css">
         <![endif]-->
 
+        <!-- Leaflet-Plugin: Awesome-Markers -->
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/Leaflet.awesome-markers/leaflet.awesome-markers.css">
+
+        <!-- Leaflet-Plugin: Awesome-Markers -->
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/leaflet-locatecontrol/L.Control.Locate.css">
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/leaflet-locatecontrol/L.Control.Locate.ie.css">
+        <![endif]-->
+
         <!-- Bootstrap -->
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" media="screen">
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-tag.css">
         <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/font-awesome/css/font-awesome.min.css">
 
-		<style type="text/css">
-			body {
-				padding-top: 60px;
-				padding-bottom: 40px;
-			}
-		</style>
+        <!-- Mein Layout-CSS -->
+        <?php //Yii::app()->clientScript->registerCssFile(Yii::app()->request->baseUrl . "/css/layout.css", ''); ?>
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/layout.css">
 
 		<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
+        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
     <body>
         <!-- Navigationsleiste -->
@@ -70,12 +77,13 @@
         <div class="container" id="content">
         <?php echo $content; ?>
         </div>
-
+        <!--
         <footer class="container">
             <p>
                 <span class="label label-important"><i class="icon-map-marker icon-white"></i> <strong><span id="posts"> </span></strong> Posts
             </p>
         </footer>
+        -->
 
         <?php
         // ---- JavaScript includes ----
@@ -85,6 +93,8 @@
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap-tag.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/core/leaflet.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/plugins/Leaflet.markercluster/leaflet.markercluster.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/plugins/Leaflet.awesome-markers/leaflet.awesome-markers.min.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/plugins/leaflet-locatecontrol/L.Control.Locate.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.js', CClientScript::POS_BEGIN);
 
         ?>

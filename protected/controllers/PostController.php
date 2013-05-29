@@ -74,7 +74,7 @@ class PostController extends CController
 			//$userId = Yii::app()->user->userid;
 			$title = $request->getPost('title');
 			$content = $request->getPost('content');
-			$category = $request->getPost('category');
+			$category_id = $request->getPost('category');
 			$tags = explode(",", $request->getPost('tags'));
 			foreach ($tags as $key => $value)
 				$tags[$key] = trim($value);
@@ -88,7 +88,7 @@ class PostController extends CController
 			$post->authorId = Yii::app()->user->id;
 			$post->title = $title;
 			$post->content = $content;
-			$post->category = $category;
+			$post->category = $category_id;
 			$post->tags = $tags;
 			$post->latitude = $latitude;
 			$post->longitude = $longitude;
