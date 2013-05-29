@@ -1,4 +1,5 @@
 <?php
+
 /**
  * MongocrudGenerator.php
  *
@@ -13,15 +14,14 @@
  * @package		ext.YiiMongoDbSuite
  *
  */
-
 Yii::setPathOfAlias('mongoExtRoot', realpath(implode(DIRECTORY_SEPARATOR, array(
-	dirname(__FILE__), '..', '..',
-))));
+					dirname(__FILE__), '..', '..',
+				))));
 
 /**
  * @since v1.3.4
  */
 class MongoModelGenerator extends CCodeGenerator
 {
-	public $codeModel='mongoExtRoot.gii.mongoModel.MongoModelCode';
+	public $codeModel = 'mongoExtRoot.gii.mongoModel.MongoModelCode';
 }

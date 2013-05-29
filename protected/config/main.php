@@ -17,7 +17,7 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'ext.YiiMongoDbSuite.*',
-		//'ext.directmongosuite.components.*',
+		'ext.directmongosuite.components.*',
 		'ext.LLoginForm.*',
 		'ext.LUserMenu.*',
 	),
@@ -34,27 +34,27 @@ return array(
 		),
 	),
 
-	/*
+	
 	'behaviors' => array(
 		'edms' => array(
 			'class'=>'EDMSBehavior',
 
-			'connectionId' => 'mongodb' //if you work with yiimongodbsuite
+			'connectionId' => 'mongodb', //if you work with yiimongodbsuite
 
 			//see the application component 'EDMSConnection' below
 			// 'connectionId' = 'edms' //default;
-			//'debug'=>true //for extended logging
+			'debug'=>true, //for extended logging
 		)
 	),
-	*/
+	
 	// application components
 	'components'=>array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
+
 		// uncomment the following to enable URLs in path-format
-		/*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -62,7 +62,7 @@ return array(
 				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
-		),*/
+		),
 		'mongodb' => array(
 			'class'            => 'EMongoDB',
 			'connectionString' => 'mongodb://localhost',
@@ -71,10 +71,10 @@ return array(
 			'safeFlag'         => true,
 			'useCursor'        => false,
 		),
-		/*'edms' => array(
+		'edms' => array(
 			'class' => 'EDMSConnection',
 			'dbname' => 'lloco'
-		),*/
+		),
         'authManager' => array(
 			'class' => 'CPhpAuthManager',
 			//'authFile' => 'protected/data/auth.php',

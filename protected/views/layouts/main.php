@@ -9,15 +9,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- leaflet.js -->
-        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/core/leaflet.css">
         <!--[if lte IE 8]>
-            <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+            <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/core/leaflet.ie.css">
+        <![endif]-->
+
+        <!-- Leaflet-Plugin: Markercluster -->
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/Leaflet.markercluster/MarkerCluster.css">
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/Leaflet.markercluster/MarkerCluster.Default.css">
+        <!--[if lte IE 8]>
+            <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/Leaflet/plugins/Leaflet.markercluster/MarkerCluster.Default.ie.css">
         <![endif]-->
 
         <!-- Bootstrap -->
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" rel="stylesheet" media="screen">
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-tag.css" rel="stylesheet">
-        <link href="<?php echo Yii::app()->request->baseUrl; ?>/css/font-awesome.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap.css" media="screen">
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-tag.css">
+        <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/lib/font-awesome/css/font-awesome.min.css">
 
 		<style type="text/css">
 			body {
@@ -41,7 +48,7 @@
                     </button>
                     <a class="brand" href="<?php echo Yii::app()->createUrl('post/show'); ?>">lloco</a>
                     <ul class="nav">
-                        <li><a href="<?php echo Yii::app()->createUrl('map/show'); ?>"><i class="icon-map-marker icon-white"></i>&nbsp;&nbsp;Map</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl('map/explore'); ?>"><i class="icon-map-marker icon-white"></i>&nbsp;&nbsp;Map</a></li>
                         <li><a href="#"><i class="icon-th icon-white"></i>&nbsp;&nbsp;Überblick</a></li>
                     </ul>
                     <div class="nav-collapse collapse">
@@ -76,7 +83,8 @@
         //Yii::app()->clientScript->registerScriptFile('http://cdn.leafletjs.com/leaflet-0.5/leaflet.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap.min.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/bootstrap-tag.js', CClientScript::POS_END);
-        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/leaflet.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/core/leaflet.js', CClientScript::POS_END);
+        Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/lib/Leaflet/plugins/Leaflet.markercluster/leaflet.markercluster.js', CClientScript::POS_END);
         Yii::app()->clientScript->registerScriptFile(Yii::app()->baseUrl . '/js/jquery.js', CClientScript::POS_BEGIN);
 
         ?>

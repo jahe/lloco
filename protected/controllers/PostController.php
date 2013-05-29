@@ -27,6 +27,16 @@ class PostController extends CController
 		
 		$this->render('view', array('post' => $post, 'comment' => new Comment));
 	}
+
+	public function actionTest()
+	{
+		$long = $_GET['lo'];
+		$lat = $_GET['la'];
+
+		$result = Post::getPostsByProximity($long, $lat);
+
+		$this->render('test', array('result' => $result));
+	}
 	
 	public function actionShow()
 	{

@@ -19,6 +19,8 @@
 	<div class="span6" id="data">
 		<i class="icon-spinner icon-spin"></i> Lade Daten...
 	</div>
+	
+	<!--
 	<div class="span6">
 		<div id="map" style="height:200px;">
 		</div>
@@ -52,4 +54,5 @@
 		});
 		</script>
 	</div>
+	-->
 </div>

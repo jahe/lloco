@@ -1,0 +1,1 @@
+Titel: <?php echo $post['title']; ?>

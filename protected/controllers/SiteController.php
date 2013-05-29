@@ -1,5 +1,7 @@
 <?php
 
+require_once(Yii::getPathOfAlias('application') . "/libs/password.php");
+
 class SiteController extends Controller
 {
 	/**
@@ -105,7 +107,8 @@ class SiteController extends Controller
 			$user = new User();
 			$user->username = $_POST['username'];
 			$user->email = $_POST['email'];
-			$user->password = $_POST['password'];
+			$user->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+			//$user->password = $_POST['password'];
 			$user->save();
 
 			$identity = new LUserIdentity($user->username, $user->password);
