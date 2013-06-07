@@ -42,7 +42,7 @@
 		<link href="<?php echo Yii::app()->request->baseUrl; ?>/css/bootstrap-responsive.css" rel="stylesheet">
         <title><?php echo CHtml::encode($this->pageTitle); ?></title>
     </head>
-    <body>
+    <body style="background-image: url(<?php echo Yii::app()->request->baseUrl; ?>/img/background.png); background-repeat: repeat;">
         <!-- Navigationsleiste -->
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
@@ -53,10 +53,10 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="<?php echo Yii::app()->createUrl('post/show'); ?>">lloco</a>
+                    <a class="brand" href="<?php echo Yii::app()->createUrl('map/explore'); ?>">lloco</a>
                     <ul class="nav">
                         <li><a href="<?php echo Yii::app()->createUrl('map/explore'); ?>"><i class="icon-map-marker icon-white"></i>&nbsp;&nbsp;Map</a></li>
-                        <li><a href="#"><i class="icon-th icon-white"></i>&nbsp;&nbsp;Überblick</a></li>
+                        <li><a href="<?php echo Yii::app()->createUrl('post/overview'); ?>"><i class="icon-th icon-white"></i>&nbsp;&nbsp;Überblick</a></li>
                     </ul>
                     <div class="nav-collapse collapse">
                         <ul class="nav">

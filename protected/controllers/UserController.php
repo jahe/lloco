@@ -32,7 +32,7 @@ class UserController extends CController
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('register', 'index','view'),
+				'actions'=>array('register', 'index','view', 'getprofileimg'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -83,6 +83,25 @@ class UserController extends CController
 		$this->render('register', array('model' => $model));
 	}
 	*/
+
+	public function actionGetprofileimg($user = null, $width = null, $height = null)
+	{
+		$img = User::model()->getProfileImg($user, $width, $height);
+
+		header('Content-type: image/png');
+
+		imagepng($img);
+		imagedestroy($img);
+
+
+		/*
+		while (!feof($imgStream)) {
+			echo fread($imgStream, 8192);
+		}
+		*/
+
+		Yii::app()->end();
+	}
 
 	/**
 	 * Displays a particular model.

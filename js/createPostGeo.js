@@ -4,11 +4,15 @@
 
 (function() {
   $(document).ready(function() {
+    $('#inputFotos').change(function(event) {
+      dateiausgabe(event);
+    });
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         successCallback,
         errorCallback,
-        {maximumAge:600000, timeout:5000, enableHighAccuracy: true});
+        {maximumAge:600000, timeout:60000, enableHighAccuracy: true});
     }
     else {
       $('#locationstatus').replaceWith(
@@ -18,6 +22,31 @@
         '</div>');
     }
   });
+
+  function dateiausgabe(event) {
+    var dateien = event.target.files;
+
+    for (var i = 0, datei; datei = dateien[i]; i++) {
+      var inhalte = new FileReader();
+
+      inhalte.onload = (function(datei) {
+        return function(e) {
+          var element = document.createElement("LI");
+          //var info = document.createTextNode(datei.name + " (" + datei.type + "), " + datei.size + " Bytes");
+          var bild = document.createElement("IMG");
+          bild.setAttribute("src", e.target.result);
+          bild.className = "thumbnail";
+
+          //element.appendChild(info);
+          //element.appendChild(document.createElement("BR"));
+          element.appendChild(bild);
+
+          document.getElementById("fotoliste").appendChild(element);
+        };
+      })(datei);
+      inhalte.readAsDataURL(datei);
+    }
+  }
 
   function successCallback(position) {
     var latitude = position.coords.latitude;
@@ -85,7 +114,7 @@
     $('#locationwrapper').append(mapDiv);
 
     var map = new L.Map('map');
-    tile = new L.TileLayer('http://otile{s}.mqcdn.com/tiles/1.0.0/{type}/{z}/{x}/{y}.png', {subdomains: '1234',type: 'osm',attribution: 'Map data ' + L.TileLayer.OSM_ATTR + ', ' + 'Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png" />'});
+    tile = new L.TileLayer('http://{s}.tile.cloudmade.com/8b600904281b42a6a54945da0a804c5d/997/256/{z}/{x}/{y}.png');
 
     // focus on location
     map.setView([latitude, longitude], 17).addLayer(tile);

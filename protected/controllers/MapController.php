@@ -69,8 +69,9 @@ class MapController extends CController
 	public function actionGetpost($post_id)
 	{
 		$postdata = Post::model()->getPostData($post_id);
+		$postUrl = Yii::app()->createUrl('post/show', ['postid'=>$postdata['_id']]);
 
-		$this->renderPartial('postPopup', ['post' => $postdata]);
+		$this->renderPartial('postPopup', ['post' => $postdata, 'postUrl' => $postUrl]);
 	}
 
 	public function actionGetposts()

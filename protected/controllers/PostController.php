@@ -12,6 +12,54 @@ class PostController extends CController
 		// using the default layout 'protected/views/layouts/main.php'
 		$this->render('index', array('ansage' => Yii::app()->user->isGuest));
 	}
+
+	public function actionOverview($cat = null, $sort = null, $latitude = null, $longitude = null)
+	{
+		$filter['cat'] = (!is_null($cat)) ? $cat : 'all';
+		$filter['sort'] = (!is_null($sort)) ? $sort : 'close';
+		if (!is_null($latitude) || !is_null($longitude))
+		{
+			$filter['latitude'] = floatval($latitude);
+			$filter['longitude'] = floatval($longitude);
+		}
+		// Letzte Position aus den Cookies lesen
+		else if (isset(Yii::app()->request->cookies['lastPos']))
+		{
+			$lastPosition = json_decode(Yii::app()->request->cookies['lastPos']);
+
+			$filter['latitude'] = floatval($lastPosition->latitude);
+			$filter['longitude'] = floatval($lastPosition->longitude);
+		}
+		// DEFAULT: Flensburg
+		else
+		{
+			$filter['latitude'] = 54.7833333;
+			$filter['longitude'] = 9.4333333;
+		}
+
+		$sorts = ['close' => 'In der Nähe', 'new' => 'Neuigkeiten', 'popular' => 'Angesagt'];
+
+		$categories = Category::getAllCategories();
+		$this->render('overview', ['categories' => $categories, 'sorts' => $sorts, 'filter' => $filter]);
+	}
+
+	public function actionGetposts($cat = null, $sort = null, $latitude = null, $longitude = null)
+	{
+		// DEFAULT.. MUSS NOCH VERNÜNFTIG VALIDIERT WERDEN!
+		if (is_null($latitude))
+			$latitude = 54.7833333;
+		if (is_null($longitude))
+			$longitude = 9.4333333;
+
+		$posts = Post::model()->getPostsByFilter(
+			['cat' => $cat,
+			'sort' => $sort,
+			'latitude' => floatval($latitude),
+			'longitude' => floatval($longitude)]
+		);
+
+		$this->renderPartial('listedPosts', ['posts' => $posts]);
+	}
 	
 	public function actionView()
 	{
@@ -37,9 +85,107 @@ class PostController extends CController
 
 		$this->render('test', array('result' => $result));
 	}
-	
-	public function actionShow()
+
+	public function actionGetimg($fileid)
 	{
+		$img = Post::model()->getImg($fileid);
+
+		header('Content-type: image/jpeg');
+
+		imagejpeg($img);
+		imagedestroy($img);
+
+
+		/*
+		while (!feof($imgStream)) {
+			echo fread($imgStream, 8192);
+		}
+		*/
+
+		Yii::app()->end();
+	}
+
+	public function actionCreatecomment()
+	{
+		$postId = $_POST['postId'];
+		$content = $_POST['content'];
+		$userId = Yii::app()->user->id;
+		$createTime = time();
+
+		$commentdata = [
+			'postid' => $postId,
+			'userid' => $userId,
+			'content' => $content,
+			'createTime' => $createTime,
+		];
+
+		$done = Post::model()->setComment($commentdata);
+
+		header('Content-type: application/json');
+
+		echo json_encode(['done' => $done]);
+		Yii::app()->end();
+	}
+
+	public function actionLikedislike()
+	{
+		$toggleState = $_POST['toggle'];
+		$postid = $_POST['postid'];
+		$userid = Yii::app()->user->id;
+
+		$newState = Post::model()->toggleLikeDislike($postid, $userid, $toggleState);
+
+		header('Content-type: application/json');
+
+		echo json_encode(['state' => $newState]);
+		Yii::app()->end();
+	}
+
+	public function actionGetlikestats($postid)
+	{
+		$result = Post::model()->getLikeStats($postid);
+		header('Content-type: application/json');
+
+		echo json_encode($result);
+		Yii::app()->end();
+	}
+
+	public function actionDelete()
+	{
+		$postid = $_POST['postid'];
+
+		$result = Post::model()->deletePost($postid);
+
+		header('Content-type: application/json');
+
+		echo json_encode(['done' => $result]);
+		Yii::app()->end();
+	}
+
+	public function actionDeletecomment()
+	{
+		$commentid = $_POST['commentid'];
+
+		$done = Post::model()->delComment($commentid);
+
+		header('Content-type: application/json');
+
+		echo json_encode(['done' => $done]);
+		Yii::app()->end();
+	}
+
+	public function actionGetcomments($postid)
+	{
+		$posts = Post::model()->getPostData($postid);
+		$this->renderPartial('listedComments', ['comments' => $posts['comments']]);
+	}
+	
+	public function actionShow($postid)
+	{
+		$postdata = Post::model()->getPostData($postid);
+
+		$this->render('showPost', ['post' => $postdata]);
+		/*
 		if (Yii::app()->request->isAjaxRequest)
 		{
 			$location = array($_POST['longitude'], $_POST['latitude']);
@@ -54,6 +200,8 @@ class PostController extends CController
 			//$this->render('showPost', array('posts' => $posts));
 			$this->render('showPost');
 		}
+		*/
+
 	}
 	
 	/*public function actionPartial()
@@ -81,6 +229,16 @@ class PostController extends CController
 			$latitude = $request->getPost('latitude');
 			$longitude = $request->getPost('longitude');
 
+
+			// HIER DIE DATEIEN ÜBERPRÜFEN!
+			if (isset($_FILES['pics']['name']))
+			{
+				foreach ($_FILES['pics']['name'] as $pic)
+				{
+
+				}
+			}
+
 			// HIER NOCH MEHR Attribute!!!
 
 			$post = new Post();
@@ -95,8 +253,10 @@ class PostController extends CController
 			$post->createTime = time();
 			$test = $post->save();
 
-			$posts = Post::model()->findAll();
-			$this->render('showPost', array('posts' => $posts));
+			if (isset($_FILES['pics']['name']))
+				$result = Post::model()->setPics($post->_id->__toString());
+
+			$this->redirect(['post/show', 'postid' => $post->_id->__toString()]);
 		}
 		else
 		{
