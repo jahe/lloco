@@ -21,11 +21,14 @@ class PostController extends CController
 			$criteria = new EMongoCriteria;
 			$criteria->_id = new MongoId($_GET['id']);
 			$post = Post::model()->find($criteria);
+			$comment = $this->newComment($post);
+			$comments = $post->comments();
 		}
 		if ($post === null)
 			throw new CHttpException(404, 'Dieser Post existiert nicht!');
 		
-		$this->render('view', array('post' => $post, 'comment' => new Comment));
+		//$this->render('view', array('post' => $post, 'comment' => new Comment));
+		$this->render('view', array('post' => $post, 'comments' => $comments, 'comment' => $comment));
 	}
 
 	public function actionTest()
@@ -109,5 +112,20 @@ class PostController extends CController
 	public function actionListAll()
 	{
 
+	}
+	
+	protected function newComment($post)
+	{
+		$comment = new Comment();
+		if (isset($_POST['Comment']))
+		{
+			$comment->attributes = $_POST['Comment'];
+			if ($post->addComment($comment))
+			{
+				$this->refresh();
+			}
+		}
+		
+		return $comment;
 	}
 }

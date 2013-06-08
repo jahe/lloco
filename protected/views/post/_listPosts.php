@@ -18,6 +18,7 @@ foreach ($posts as $post)
 		<p><?php echo $post->content; ?></p>
 		<footer>
 			<p>von <?php echo $post->authorId; ?> in <?php echo $post->category; ?></p>
+			<p><?php echo $post->commentCount(); ?> Kommentare</p>
 		</footer>
 	</article>
 	<hr>

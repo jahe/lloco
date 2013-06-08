@@ -14,8 +14,11 @@
 	<p><?php echo $post->content; ?></p>
 </article>
 
+<p><?php echo $post->commentCount(); ?> Kommentare</p>
+
 <?php
-	$this->renderPartial('_comments', array('comments' => $post->comments()));
+	//$this->renderPartial('_comments', array('comments' => $post->comments()));
+	$this->renderPartial('_comments', array('comments' => $comments));
 ?>
 
 <?php

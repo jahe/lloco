@@ -55,6 +55,7 @@ return array(
 		),
 
 		// uncomment the following to enable URLs in path-format
+		/*
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
@@ -63,6 +64,7 @@ return array(
 				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
+		*/
 		'mongodb' => array(
 			'class'            => 'EMongoDB',
 			'connectionString' => 'mongodb://localhost',
@@ -76,7 +78,8 @@ return array(
 			'dbname' => 'lloco'
 		),
         'authManager' => array(
-			'class' => 'CPhpAuthManager',
+			//'class' => 'CPhpAuthManager',
+			'class' => 'EDMSAuthManager',
 			//'authFile' => 'protected/data/auth.php',
 			'defaultRoles' => array('guest', 'authenticated'),
 			'showErrors' => true,

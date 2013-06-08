@@ -3,7 +3,10 @@
 		<h1>Post kommentieren</h1>
 	</header>
 <?php
-	$form = $this->beginWidget('CActiveForm', array('id' => 'createComment'));
+	$form = $this->beginWidget('CActiveForm',
+			array(
+				'id' => 'createComment'/*,
+				'action' => CHtml::normalizeUrl(array('comment/create'))*/));
 ?>
 
 <?php
