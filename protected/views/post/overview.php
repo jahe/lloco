@@ -14,15 +14,12 @@ Yii::app()->clientScript->registerScriptFile('http://maps.google.com/maps/api/js
 			<div class="accordion-inner">
 				<form class="form-horizontal" action="" name="filterForm" method="get" id="filterForm">
 					<div class="control-group">
-						<label class="control-label" for="filterAdress">Umgebung</label>
+						<label class="control-label" for="filterAdress">Standort</label>
 						<div class="controls">
-
-							<div class="input-append">
-								<input id="filterAdress" type="text">
-								<input type="hidden" name="latitude" value="">
-								<input type="hidden" name="longitude" value="">
-								<button id="getGeoBtn" class="btn" type="button" data-loading-text="<i class='icon-spinner icon-spin'></i>"><i class="icon-screenshot icon-black"></i></button>
-							</div>
+							<button style="display: inline-block" type="button" class="btn btn-small"><i class="icon-screenshot"></i></button>
+							<span>Elmshorn, Königsstraße 2 <i class="icon-ok"></i></span>
+							<input type="hidden" name="latitude" value="">
+							<input type="hidden" name="longitude" value="">
 						</div>
 					</div>
 					<div class="control-group">

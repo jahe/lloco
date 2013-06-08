@@ -18,7 +18,7 @@ if (count($comments) > 0)
 			?>
 			<div class="pull-left">
 				<a href="<?php echo Yii::app()->createUrl('user/profile', ['user' => $comment['author']]); ?>">
-					<img src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => $comment['author'], 'width' => 64, 'height' => 64]); ?>">
+					<img class="img-polaroid" src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => $comment['author'], 'width' => 64, 'height' => 64]); ?>">
 				</a>
 			</div>
 			<div>

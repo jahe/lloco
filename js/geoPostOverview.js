@@ -37,6 +37,13 @@
     }
 
     $(document).ready(function() {
+        //$("#searchBtn").popover({ rel: popover, title: 'Look! A bird!', content: '<b>hulu</b>', html:true });​​​
+
+        $("#searchBtn").click(function() {
+            console.log("hulu");
+            //$("#searchBtn").popover('show');
+         
+        });
 
         // ------ Formular Handler -------
         $("#filterForm").submit(function() {

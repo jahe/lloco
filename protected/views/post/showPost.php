@@ -46,7 +46,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/showPost.c
 		?>
 		<div class="pull-left">
 			<a href="<?php echo Yii::app()->createUrl('user/profile', ['user' => $post['author']]); ?>">
-				<img src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => $post['author'], 'width' => 64, 'height' => 64]); ?>">
+				<img class="img-polaroid" src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => $post['author'], 'width' => 64, 'height' => 64]); ?>">
 			</a>
 		</div>
 		<div style="overflow: hidden;">
@@ -158,7 +158,7 @@ Yii::app()->clientScript->registerCssFile(Yii::app()->baseUrl . '/css/showPost.c
 		?>
 			<div class="clearfix">
 				<div class="pull-left">
-					<img src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => Yii::app()->user->username, 'width' => 64, 'height' => 64]); ?>">
+					<img class="img-polaroid" src="<?php echo Yii::app()->createUrl('user/getprofileimg', ['user' => Yii::app()->user->username, 'width' => 64, 'height' => 64]); ?>">
 				</div>
 				<div style="overflow: hidden;">
 					<form id="commentForm" action="" method="POST">
